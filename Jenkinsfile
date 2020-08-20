@@ -1,4 +1,4 @@
-Frontend Jenkins Pipeline
+//Frontend Jenkins Pipeline
 
 pipeline {
   agent any
