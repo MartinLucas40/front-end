@@ -1,32 +1,56 @@
-//Frontend Jenkins Pipeline
-
 pipeline {
-  agent any
+  agent none
   stages {
     stage('Compile') {
+      agent {
+        docker {
+          image 'schoolofdevops/node:4-alpine'
+        }
+
+      }
       steps {
         echo 'Compilation'
         sh 'npm install'
       }
     }
+
     stage('Validate') {
+      agent {
+        docker {
+          image 'schoolofdevops/node:4-alpine'
+        }
+
+      }
       steps {
         sh 'npm test'
       }
     }
+
     stage('Package') {
+      agent {
+        docker {
+          image 'schoolofdevops/node:4-alpine'
+        }
+
+      }
       steps {
         sh ' npm run package'
       }
     }
-    stage ('Archival'){
+
+    stage('dockerpublish') {
       steps {
-        echo 'Archiving'
-        archiveArtifacts '**/distribution/*.zip'
+        echo 'publishdocker'
+        script {
+          docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
+            def dockerImage = docker.build("sanjaygeeky/frontend:v${env.BUILD_ID}", "./")
+            dockerImage.push()
+            dockerImage.push("latest")
+          }
+        }
+
       }
-
-
     }
-    }//stages
- }//pipeline
 
+  }
+}
