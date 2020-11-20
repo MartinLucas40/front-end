@@ -1,13 +1,10 @@
 pipeline {
   agent none
+ tool {
+ node = 'node486'	
+} 
   stages {
     stage('Compile') {
-      agent {
-        docker {
-          image 'schoolofdevops/node:4-alpine'
-        }
-
-      }
       steps {
         echo 'Compilation'
         sh 'npm install'
@@ -15,42 +12,16 @@ pipeline {
     }
 
     stage('Validate') {
-      agent {
-        docker {
-          image 'schoolofdevops/node:4-alpine'
-        }
-
-      }
       steps {
         sh '''npm install 
-npm test'''
+             npm test'''
       }
     }
 
     stage('Package') {
-      agent {
-        docker {
-          image 'schoolofdevops/node:4-alpine'
-        }
-
-      }
       steps {
         sh '''npm install 
-npm run package'''
-      }
-    }
-
-    stage('dockerpublish') {
-      steps {
-        echo 'publishdocker'
-        script {
-          docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-            def dockerImage = docker.build("sanjaygeeky/frontend:v${env.BUILD_ID}", "./")
-            dockerImage.push()
-            dockerImage.push("latest")
-          }
-        }
-
+          npm run package'''
       }
     }
 
