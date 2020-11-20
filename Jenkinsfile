@@ -1,6 +1,6 @@
 pipeline {
   agent none
- tool {
+ tools {
  node = 'node486'	
 } 
   stages {
