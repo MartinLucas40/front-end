@@ -1,8 +1,6 @@
 pipeline {
   agent any
- tools {
- nodejs =  'node486'	
-} 
+ tools { nodejs 'node486'} 
   stages {
     stage('Compile') {
       steps {
