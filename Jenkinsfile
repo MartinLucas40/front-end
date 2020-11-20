@@ -1,7 +1,7 @@
 pipeline {
   agent any
  tools {
- node = 'node486'	
+ node  'node486'	
 } 
   stages {
     stage('Compile') {
