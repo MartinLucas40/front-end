@@ -1,6 +1,5 @@
 pipeline {
   agent any
- tools { nodejs 'node486'} 
   stages {
     stage('Compile') {
       steps {
@@ -25,9 +24,12 @@ pipeline {
 
     stage('Archive') {
       steps {
-        archiveArtifacts '**/*.zip'
+        archiveArtifacts '**ditributions/*.zip'
       }
     }
 
+  }
+  tools {
+    nodejs 'node486'
   }
 }
