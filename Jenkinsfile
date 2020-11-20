@@ -25,5 +25,11 @@ pipeline {
       }
     }
 
+    stage('Archive') {
+      steps {
+        archiveArtifacts '**/*.zip'
+      }
+    }
+
   }
 }
